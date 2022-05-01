@@ -1,0 +1,25 @@
+{
+  "name": "sfdc-connection",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "twilio-run",
+    "deploy": "twilio serverless:deploy --force"
+  },
+  "dependencies": {
+    "@twilio/runtime-handler": "1.2.2",
+    "dotenv": "^16.0.0",
+    "jsforce": "^1.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "twilio": "^3.56"
+  },
+  "devDependencies": {
+    "twilio-run": "^3.4.1"
+  },
+  "engines": {
+    "node": "12"
+  }
+}
