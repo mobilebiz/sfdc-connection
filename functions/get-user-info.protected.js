@@ -3,6 +3,7 @@ const jsforce = require('jsforce');
 exports.handler = async function (context, event, callback) {
   let accountName = '';
   let contactName = '';
+  let address = '';
   try {
     // パラメータ取得
     const phone = event.phone;
@@ -27,13 +28,14 @@ exports.handler = async function (context, event, callback) {
         {
           Phone: phone,
         },
-        ['AccountId', 'Name', 'Phone'],
+        ['AccountId', 'Name', 'Phone', 'MailingAddress'],
       )
       .execute();
     console.info(`Contact: ${JSON.stringify(contact, null, '\t')}`);
     if (contact.length === 0) {
       accountName = '[新規]';
     } else {
+      address = `${contact[0].MailingAddress.state}${contact[0].MailingAddress.city}${contact[0].MailingAddress.street}`;
       contactName = `${contact[0].Name} 様`;
       // 取引先の検索
       const account = await conn
@@ -45,7 +47,11 @@ exports.handler = async function (context, event, callback) {
         accountName = account[0].Name;
       }
     }
-    callback(null, `${accountName} ${contactName}`);
+    const json = {
+      name: `${accountName} ${contactName}`,
+      address,
+    };
+    callback(null, json);
   } catch (error) {
     console.error(`👺 ERROR: ${error}`);
     callback(error);
